@@ -31,28 +31,28 @@ for i=1:length(files)
         switch group;
             case 'Beta'
                 sex='F';
-                group='CTL';
+                group='40H';
             case 'Delta'
                 sex='F';
-                group='CUS';
+                group='CTL';
             case 'Gamma'
                 sex='F';
-                group='10H';
+                group='CUS';
             case 'Theta'
                 sex='F';
-                group='40H';
+                group='10H';
             case 'Alpha'
                 sex='M';
                 group='CTL';
             case 'Nu'
                 sex='M';
-                group='CUS';
+                group='40H';
             case 'Pi'
                 sex='M';
-                group='10H';
+                group='CUS';
             case 'Zeta'
                 sex='M';
-                group='40H';
+                group='10H';
         end
         sample=[c{3}];
             sample=sample(1:2);
@@ -104,6 +104,7 @@ end
 % and pre to the desire prefix
 
 name = 1;
+out = 1; 
 pre='PL'; % CHANGE NAME TO MATCH REGION BEING ANALYZED
 
 %define variables
@@ -145,7 +146,7 @@ for i=1:length(reconstructions);
             hullareaMCTL=[hullareaMCTL;reconstructions(i).hullarea];
             arbareaMCTL=[arbareaMCTL;reconstructions(i).arbarea];
             dendlengthMCTL=[dendlengthMCTL;reconstructions(i).dendlength];
-            junctionnunumMCTL=[junctionnumMCTL;reconstructions(i).junctionnum]; 
+            junctionnumMCTL=[junctionnumMCTL;reconstructions(i).junctionnum]; 
         case 'MCUS' ;
             somanumMCUS=[somanumMCUS;reconstructions(i).somanum];
             hullareaMCUS=[hullareaMCUS;reconstructions(i).hullarea];
@@ -166,16 +167,28 @@ for i=1:length(reconstructions);
             junctionnumM40H=[junctionnumM40H;reconstructions(i).junctionnum];          
     end
 end
-summary=[mean(somanumFCTL) mean(somanumFCUS) mean(somanumF10H) mean(somanumF40H) mean(somanumMCTL) mean(somanumM10H) mean(somanumM10H) mean(somanumM40H);
-    std(somanumFCTL)/sqrt(length(somanumFCTL)) std(somanumFCUS)/sqrt(length(somanumFCUS)) std(somanumF10H)/sqrt(length(somanumF10H)) std(somanumF40H)/sqrt(length(somanumF40H)) std(somanumMCTL)/sqrt(length(somanumMCTL)) std(somanumM10H)/sqrt(length(somanumM10H)) std(somanumM10H)/sqrt(length(somanumM10H)) std(somanumM40H)/sqrt(length(somanumM40H));
-    mean(arbareaFCTL) mean(arbareaFCUS) mean(arbareaF10H) mean(arbareaF40H) mean(arbareaMCTL) mean(arbareaM10H) mean(arbareaM10H) mean(arbareaM40H);
-    std(arbareaFCTL)/sqrt(length(arbareaFCTL)) std(arbareaFCUS)/sqrt(length(arbareaFCUS)) std(arbareaF10H)/sqrt(length(arbareaF10H)) std(arbareaF40H)/sqrt(length(arbareaF40H)) std(arbareaMCTL)/sqrt(length(arbareaMCTL)) std(arbareaM10H)/sqrt(length(arbareaM10H)) std(arbareaM10H)/sqrt(length(arbareaM10H)) std(arbareaM40H)/sqrt(length(arbareaM40H));
-    mean(dendlengthFCTL) mean(dendlengthFCUS) mean(dendlengthF10H) mean(dendlengthF40H) mean(dendlengthMCTL) mean(dendlengthM10H) mean(dendlengthM10H) mean(dendlengthM40H);
-    std(dendlengthFCTL)/sqrt(length(dendlengthFCTL)) std(dendlengthFCUS)/sqrt(length(dendlengthFCUS)) std(dendlengthF10H)/sqrt(length(dendlengthF10H)) std(dendlengthF40H)/sqrt(length(dendlengthF40H)) std(dendlengthMCTL)/sqrt(length(dendlengthMCTL)) std(dendlengthM10H)/sqrt(length(dendlengthM10H)) std(dendlengthM10H)/sqrt(length(dendlengthM10H)) std(dendlengthM40H)/sqrt(length(dendlengthM40H));
-    mean(junctionnumFCTL) mean(junctionnumFCUS) mean(junctionnumF10H) mean(junctionnumF40H) mean(junctionnumMCTL) mean(junctionnumM10H) mean(junctionnumM10H) mean(junctionnumM40H);
-    std(junctionnumFCTL)/sqrt(length(junctionnumFCTL)) std(junctionnumFCUS)/sqrt(length(junctionnumFCUS)) std(junctionnumF10H)/sqrt(length(junctionnumF10H)) std(junctionnumF40H)/sqrt(length(junctionnumF40H)) std(junctionnumMCTL)/sqrt(length(junctionnumMCTL)) std(junctionnumM10H)/sqrt(length(junctionnumM10H)) std(junctionnumM10H)/sqrt(length(junctionnumM10H)) std(junctionnumM40H)/sqrt(length(junctionnumM40H));
-    mean(hullareaFCTL) mean(hullareaFCUS) mean(hullareaF10H) mean(hullareaF40H) mean(hullareaMCTL) mean(hullareaM10H) mean(hullareaM10H) mean(hullareaM40H);
-    std(hullareaFCTL)/sqrt(length(hullareaFCTL)) std(hullareaFCUS)/sqrt(length(hullareaFCUS)) std(hullareaF10H)/sqrt(length(hullareaF10H)) std(hullareaF40H)/sqrt(length(hullareaF40H)) std(hullareaMCTL)/sqrt(length(hullareaMCTL)) std(hullareaM10H)/sqrt(length(hullareaMCUS)) std(hullareaM10H)/sqrt(length(hullareaM10H)) std(hullareaM40H)/sqrt(length(hullareaM40H))];
+summary=[mean(somanumFCTL) mean(somanumFCUS) mean(somanumF10H) mean(somanumF40H) mean(somanumMCTL) mean(somanumMCUS) mean(somanumM10H) mean(somanumM40H);
+    std(somanumFCTL)/sqrt(length(somanumFCTL)) std(somanumFCUS)/sqrt(length(somanumFCUS)) std(somanumF10H)/sqrt(length(somanumF10H)) std(somanumF40H)/sqrt(length(somanumF40H)) std(somanumMCTL)/sqrt(length(somanumMCTL)) std(somanumMCUS)/sqrt(length(somanumMCUS)) std(somanumM10H)/sqrt(length(somanumM10H)) std(somanumM40H)/sqrt(length(somanumM40H));
+    mean(arbareaFCTL) mean(arbareaFCUS) mean(arbareaF10H) mean(arbareaF40H) mean(arbareaMCTL) mean(arbareaMCUS) mean(arbareaM10H) mean(arbareaM40H);
+    std(arbareaFCTL)/sqrt(length(arbareaFCTL)) std(arbareaFCUS)/sqrt(length(arbareaFCUS)) std(arbareaF10H)/sqrt(length(arbareaF10H)) std(arbareaF40H)/sqrt(length(arbareaF40H)) std(arbareaMCTL)/sqrt(length(arbareaMCTL)) std(arbareaMCUS)/sqrt(length(arbareaMCUS)) std(arbareaM10H)/sqrt(length(arbareaM10H)) std(arbareaM40H)/sqrt(length(arbareaM40H));
+    mean(dendlengthFCTL) mean(dendlengthFCUS) mean(dendlengthF10H) mean(dendlengthF40H) mean(dendlengthMCTL) mean(dendlengthMCUS) mean(dendlengthM10H) mean(dendlengthM40H);
+    std(dendlengthFCTL)/sqrt(length(dendlengthFCTL)) std(dendlengthFCUS)/sqrt(length(dendlengthFCUS)) std(dendlengthF10H)/sqrt(length(dendlengthF10H)) std(dendlengthF40H)/sqrt(length(dendlengthF40H)) std(dendlengthMCTL)/sqrt(length(dendlengthMCTL)) std(dendlengthMCUS)/sqrt(length(dendlengthMCUS)) std(dendlengthM10H)/sqrt(length(dendlengthM10H)) std(dendlengthM40H)/sqrt(length(dendlengthM40H));
+    mean(junctionnumFCTL) mean(junctionnumFCUS) mean(junctionnumF10H) mean(junctionnumF40H) mean(junctionnumMCTL) mean(junctionnumMCUS) mean(junctionnumM10H) mean(junctionnumM40H);
+    std(junctionnumFCTL)/sqrt(length(junctionnumFCTL)) std(junctionnumFCUS)/sqrt(length(junctionnumFCUS)) std(junctionnumF10H)/sqrt(length(junctionnumF10H)) std(junctionnumF40H)/sqrt(length(junctionnumF40H)) std(junctionnumMCTL)/sqrt(length(junctionnumMCTL)) std(junctionnumMCUS)/sqrt(length(junctionnumMCUS)) std(junctionnumM10H)/sqrt(length(junctionnumM10H)) std(junctionnumM40H)/sqrt(length(junctionnumM40H));
+    mean(hullareaFCTL) mean(hullareaFCUS) mean(hullareaF10H) mean(hullareaF40H) mean(hullareaMCTL) mean(hullareaMCUS) mean(hullareaM10H) mean(hullareaM40H);
+    std(hullareaFCTL)/sqrt(length(hullareaFCTL)) std(hullareaFCUS)/sqrt(length(hullareaFCUS)) std(hullareaF10H)/sqrt(length(hullareaF10H)) std(hullareaF40H)/sqrt(length(hullareaF40H)) std(hullareaMCTL)/sqrt(length(hullareaMCTL)) std(hullareaMCUS)/sqrt(length(hullareaMCUS)) std(hullareaM10H)/sqrt(length(hullareaM10H)) std(hullareaM40H)/sqrt(length(hullareaM40H))];
+
+% outliers, if desired:
+if out
+    base_names = {'somanumFCTL', 'somanumFCUS', 'somanumF10H', 'somanumF40H', 'somanumMCTL', 'somanumMCUS', 'somanumM10H', 'somanumM40H', 'hullareaFCTL', 'hullareaFCUS', 'hullareaF10H', 'hullareaF40H', 'hullareaMCTL', 'hullareaMCUS', 'hullareaM10H', 'hullareaM40H', 'arbareaFCTL', 'arbareaFCUS', 'arbareaF10H', 'arbareaF40H', 'arbareaMCTL', 'arbareaMCUS', 'arbareaM10H', 'arbareaM40H', 'dendlengthFCTL', 'dendlengthFCUS', 'dendlengthF10H', 'dendlengthF40H', 'dendlengthMCTL', 'dendlengthMCUS', 'dendlengthM10H', 'dendlengthM40H', 'junctionnumFCTL', 'junctionnumFCUS', 'junctionnumF10H', 'junctionnumF40H', 'junctionnumMCTL', 'junctionnumMCUS', 'junctionnumM10H', 'junctionnumM40H'};
+    for i=1:length(base_names)
+        var_name=base_names{i};
+        data = evalin('base', var_name);
+        outliers = isoutlier(data, 'grubbs');
+        cleaned_data = data(~outliers);
+        assignin('base', var_name, cleaned_data);
+    end
+end
 
 % renaming, if desired: 
 if name
@@ -211,33 +224,39 @@ function pltCAT(vars,y_limit)
     plot_size=[3,3]
     font_size=13
     error_bar_width=3
-    title_text={'Female', 'Arborization Area'} % CHANGE TO MATCH REGION
+    title_text={'Male', 'Arborization Area'} % CHANGE TO MATCH REGION
     x_tick_labels={'Cntl','NoStim','10Hz','40Hz'}
     y_label='Arborization Area (\mum^2)' % CHANGE TO MATCH STATISTICS
     bar_colors = {[116/255 116/255 116/255],[134/255 28/255 51/255],[45/255 86/255 124/255],[25/255 183/255 153/255]}
     error_bar_color = {[116/255 116/255 116/255],[134/255 28/255 51/255],[45/255 86/255 124/255],[25/255 183/255 153/255]}
 
     % Initialize arrays to hold means and standard errors
-    means = [];
-    sems = [];
+    means = zeros(1,length(vars));
+    sems = zeros(1,length(vars));
     data_all = cell(1, length(vars));
     % Loop over the variables and calculate the mean and standard error
     for i = 1:length(vars)
-        % Check if the variable exists in the workspace
-        if evalin('base', ['exist(''', vars{i}, ''', ''var'')'])
-            % Get the current variable data
-            data = evalin('base', vars{i});
-            % Calculate the mean and standard error
-            means = [means, mean(data, 'omitnan')];
-            sems = [sems, std(data, 'omitnan') / sqrt(length(data))]; % standard error
-            data_all{i} = data;
-        else
-            warning(['Variable ', vars{i}, ' does not exist in the workspace.']);
-            means = [means, NaN];
-            sems = [sems, NaN];
-            data_all{i} = [];
-        end
+        data=evalin('base',vars{i});
+        means(i)=mean(data,'omitnan');
+        sems(i)=std(data,'omitnan')/sqrt(length(data));
+        data_all{i}=data;
     end
+
+
+        % % Check if the variable exists in the workspace
+        % if evalin('base', ['exist(''', vars{i}, ''', ''var'')'])
+        %     % Get the current variable data
+        %     data = evalin('base', vars{i});
+        %     % Calculate the mean and standard error
+        %     means = [means, mean(data, 'omitnan')];
+        %     sems = [sems, std(data, 'omitnan') / sqrt(length(data))]; % standard error
+        %     data_all{i} = data;
+        % else
+        %     warning(['Variable ', vars{i}, ' does not exist in the workspace.']);
+        %     means = [means, NaN];
+        %     sems = [sems, NaN];
+        %     data_all{i} = [];
+        % end
     % Create the bar plot
     figure('Position', [100, 100, plot_size(1)*100, plot_size(2)*100]); % Set the figure size
     % b=bar(means, 'FaceColor', 'flat', 'EdgeColor','none'); 
@@ -304,7 +323,7 @@ function pltCAT(vars,y_limit)
 end
 
 %run with this line - alter here to pick your groups
-pltCAT({'arbareaFCTL', 'arbareaFCUS', 'arbareaF10H','arbareaF40H'},[0 4800])
+pltCAT({'arbareaMCTL', 'arbareaMCUS', 'arbareaM10H','arbareaM40H'},[0 2500])
 
 
 %% Stats - 1 way anova and post hoc
@@ -355,7 +374,7 @@ function runStatsTests(vars)
 end
 
 % run this line to use the function (adjust inputs as necessary)
-runStatsTests({'arbareaFCTLPL', 'arbareaFCUSPL', 'arbareaF10HPL','arbareaF40HPL'})
+runStatsTests({'arbareaFCTLIL', 'arbareaFCUSIL', 'arbareaF10HIL','arbareaF40HIL'})
 
 
 %% Stats - 2-way anova and post hoc
