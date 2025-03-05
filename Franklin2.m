@@ -6,20 +6,23 @@
 % imaris.
 
 % This creates a structure called reconstructions with all parameters of
-% interest for each cell. The data within this structure can easily be
+% interest for each cell. The data within this structure can be
 % copied and pasted into other programs or made into it's own variable.
-reconstructions=[]
-addpath(genpath("C:\Users\cathe\Reconstructions\FlickerAstrocyteStudy")) 
+% It is primarily based on the file names, which are standardized across
+% the dataset
 
-%Open folder with desired files (PL first, then IL, then CA3)
+reconstructions=[]
+addpath(genpath("C:\Users\cathe\Reconstructions\FlickerAstrocyteStudy")) %ADJUST TO lOCATION WHERE FILES ARE SAVED
+
+%Open folder with desired files (i.e PL first, then IL)
 %ACTIVE FOLDER DETERMINES WHICH REGION ANALYZED
 
 listing=dir('**/*Filament.xls');  %list of every soma data file
 files={listing.name};   %file names of every filament data file
    zooms=contains(files,'Zoom')
-   files=files(~zooms)
-start=1;    %initialize variables
-%make sure existing reconstructions variables are cleared
+   files=files(~zooms) %remove zoomed images
+start=1;    %to keep track of progress
+reconstructions=[]
 
 for i=1:length(files)
         filamentfile=files{i};
@@ -210,23 +213,13 @@ function pltCAT(vars,y_limit)
     % y_limit (optional): A two-element vector specifying the y-axis range, e.g., [0, 100]. 
     
 % Under the "%Customize plot" line, make adjustments to visuals and labels.
-% Agreed upon colors Yale: 
-% CTL: [46/255 134/255 193/255] (bar), [31/255 78/255 121/255] (error)
-% US: [208/250,206/250,206/250] (bar), [171/255 167/255 167/255] (error)
-% CUS: [246/250,100/250,54/250] (bar), [214/255 59/255 10/255] (error)
-% Agreed upon colors Flicker:
-% Control: [222/255 235/255 247/255] (bar), [46/255 117/255 182/255]
-% Stress no flicker: [250/255 173/255 149/255] (bar), [246/255 100/255 54/255]
-% Stress with 10 Hz: [178/255 127/255 229/255] (bar), [112/255 48/255 160/255]
-% Stress with 40 Hz: [169/255 209/255 142/255] (bar), [84/255 130/255 53/255]
-
     %Customize plot
     plot_size=[3,3]
     font_size=13
     error_bar_width=3
-    title_text={'Male', 'Arborization Area'} % CHANGE TO MATCH REGION
+    title_text={'Male', 'Arborization Area'} % CHANGE TO MATCH SEX
     x_tick_labels={'Cntl','NoStim','10Hz','40Hz'}
-    y_label='Arborization Area (\mum^2)' % CHANGE TO MATCH STATISTICS
+    y_label='Arborization Area (\mum^2)' % CHANGE TO MATCH STATISTIC
     bar_colors = {[116/255 116/255 116/255],[134/255 28/255 51/255],[45/255 86/255 124/255],[25/255 183/255 153/255]}
     error_bar_color = {[116/255 116/255 116/255],[134/255 28/255 51/255],[45/255 86/255 124/255],[25/255 183/255 153/255]}
 
@@ -242,35 +235,19 @@ function pltCAT(vars,y_limit)
         data_all{i}=data;
     end
 
-
-        % % Check if the variable exists in the workspace
-        % if evalin('base', ['exist(''', vars{i}, ''', ''var'')'])
-        %     % Get the current variable data
-        %     data = evalin('base', vars{i});
-        %     % Calculate the mean and standard error
-        %     means = [means, mean(data, 'omitnan')];
-        %     sems = [sems, std(data, 'omitnan') / sqrt(length(data))]; % standard error
-        %     data_all{i} = data;
-        % else
-        %     warning(['Variable ', vars{i}, ' does not exist in the workspace.']);
-        %     means = [means, NaN];
-        %     sems = [sems, NaN];
-        %     data_all{i} = [];
-        % end
     % Create the bar plot
     figure('Position', [100, 100, plot_size(1)*100, plot_size(2)*100]); % Set the figure size
     % b=bar(means, 'FaceColor', 'flat', 'EdgeColor','none'); 
     x_positions = linspace(1, length(vars), length(vars)); % Evenly distribute bars
     b = bar(x_positions, means, 'FaceColor', 'flat', 'EdgeColor', 'none', 'BarWidth', 0.8); % Keep normal width
     xlim([min(x_positions) - 0.5, max(x_positions) + 0.5]);
-
-
     hold on;
     for i = 1:length(vars)
         b.CData(i, :) = bar_colors{i};
     end
 
-    % % Add error bars
+    % % % Add error bars, if not including the data points themselves (chunk
+    % of code below)
     % for i = 1:length(means)
     %     errorbar(i, means(i), sems(i), 'Color', error_bar_color{i}, 'LineWidth',error_bar_width,'LineStyle', 'none'); 
     % end
@@ -278,14 +255,11 @@ function pltCAT(vars,y_limit)
     for i = 1:length(vars)
         if ~isempty(data_all{i})
             data = data_all{i};
-    
             % Compute density estimation using ksdensity
             [density, y_values] = ksdensity(data); % Kernel density estimation
-            
             % Normalize density to scale jitter width
             density = density / max(density); % Scale between 0 and 1
             max_jitter = 0.18; % Adjust this for overall width of jitter
-    
             % Map data points to corresponding density-based jitter
             x_jitter = zeros(size(data));
             for j = 1:length(data)
@@ -294,12 +268,10 @@ function pltCAT(vars,y_limit)
                 % Scale jitter width based on density
                 x_jitter(j) = (rand - 0.5) * density(idx) * max_jitter * 2; 
             end
-    
             % Plot jittered scatter points
             scatter(i + x_jitter, data, 25, bar_colors{i}, 'filled', 'MarkerEdgeColor', 'k', 'LineWidth', 1, 'MarkerFaceAlpha', 0.6);
         end
     end
-
 
     if nargin > 1 && ~isempty(y_limit)
         ylim(y_limit);  % Set the y-axis limits manually if y_limit is provided
@@ -308,8 +280,6 @@ function pltCAT(vars,y_limit)
     % Aesthetics
     title(title_text, 'FontSize', font_size);
     ylabel(y_label, 'FontSize', font_size);
-    % xticks(1:length(vars));
-    % xticklabels(x_tick_labels); 
     xticks(x_positions);
     xticklabels(x_tick_labels);
     box off;
@@ -322,7 +292,7 @@ function pltCAT(vars,y_limit)
 
 end
 
-%run with this line - alter here to pick your groups
+%run with a command like this line - alter here to pick your groups
 pltCAT({'arbareaMCTL', 'arbareaMCUS', 'arbareaM10H','arbareaM40H'},[0 2500])
 
 
@@ -343,7 +313,6 @@ function runStatsTests(vars)
             data{i} = NaN; % Assign NaN if the variable does not exist
         end
     end
-
 
     data_matrix = cell2mat(data(:));
     group_labels = [];
