@@ -1,2 +1,7 @@
 # FlickerStressMitigation
-This repository includes all codes used in the figure generation of the Flicker mediated intervention of stress pathology paper
+This repository includes all codes used in the figure generation of the Flicker mediated intervention of stress pathology paper. It contains MATLAB scripts used for performing statistical analysis and graphical representation of experimental data on several parameters of astrocyte morphology. The code generates bar charts with jittered scatter plots for visualization and performs both one-way and multi-factor ANOVA with Tukey post-hoc tests.
+
+Files included: Franklin2.m, Data files (Alpha_IL.zip, Pi_IL.zip, Zeta_IL.zip, Nu_IL.zip, Delta_IL.zip, Gamma_IL.zip, Theta_IL.zip, Beta_IL.zip, Alpha_PL.zip, Pi_PL.zip, Zeta_PL.zip, Nu_PL.zip, Delta_PL.zip, Gamma_PL.zip, Theta_PL.zip, Beta_PL.zip)
+
+Instructions: Place all data files in the same folder, with subfiles created for IL vs PL data. Run section A on each region, ensuring the active folder matches the desired region. This will create a structure called reconstructions with all the parameters of interest and sample identifying information based on the file titles. Run section B, changing the ‘pre’ variable at the beginning to match the region. This will extract the variable as doubles. To generate a bar graph, use the function in section C, specifying which variables should be graphed. To run a one-way ANOVA and post-hoc tests and generate a table of relevant statistics, use the function in section D. The functions in sections E and F are for 2-way and multifactor ANOVAs respectively. 
+
